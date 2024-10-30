@@ -68,10 +68,11 @@ export default function Banner() {
 
             {/* Bio Text */}
             <p className="text-base sm:text-lg text-gray-300 max-w-md text-center px-4">
-              Hi, I'm Kacy Madueke! I'm a passionate Full-Stack Developer with experience 
+              Hi, I&apos;m Kacy Madueke! I&apos;m a passionate Full-Stack Developer with experience 
               in building impactful applications that bridge user experience and technical 
               functionality. I love learning and working with new technologies.
             </p>
+
           </div>
 
           {/* Resume Button */}
