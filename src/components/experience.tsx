@@ -96,7 +96,7 @@ export default function Experience() {
 
   return (
     <section id="experience" className="w-full bg-black text-white py-8">
-        <h2 className="text-2xl font-semibold mb-6">Where I've Worked...</h2>
+        <h2 className="text-2xl font-semibold mb-6">Where I&apos;ve Worked...</h2>
         
         {/* Horizontal Scroll Container */}
         <div className="relative w-full">
