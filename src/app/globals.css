@@ -32,7 +32,12 @@
 body {
   color: var(--foreground);
   background-color: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Netflix Sans", "Helvetica Neue", "Segoe UI", Roboto, Ubuntu, sans-serif;
+}
+#experience {
+  padding-top: 8px; /* or any smaller value */
+  padding-bottom: 16px;
 }
 
 /* Dark mode utility */

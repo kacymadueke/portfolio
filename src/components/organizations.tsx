@@ -1,5 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 type Organization = {
@@ -18,50 +20,78 @@ export default function Organizations() {
     { name: "AnitaBorg", imgSrc: "/images/anitaborg.png", description: "Promoting gender equality in tech fields." },
   ];
 
+  const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
+
+  const handleOrganizationClick = (organization: Organization) => {
+    setSelectedOrganization(selectedOrganization?.name === organization.name ? null : organization);
+  };
+
   return (
-    <section id="organizations" className="w-full bg-black text-white py-16">
-      <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8">Organizations</h2>
-        
-        {/* Container with hidden scrollbar */}
-        <div className="relative w-full">
-          <div 
-            className="flex gap-4 overflow-x-auto pb-4 scroll-smooth"
-            style={{
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch',
-            }}
-          >
-            {organizations.map((org, index) => (
-              <motion.div
-                key={index}
-                className="flex-shrink-0 w-[280px] bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div className="relative h-[160px] w-full bg-gray-700">
-                  <Image
-                    src={org.imgSrc}
-                    alt={org.name}
-                    fill
-                    className="object-contain p-4"
-                    sizes="280px"
-                  />
+    <section id="organizations" className="w-full bg-black text-white py-8">
+      <h2 className="text-2xl font-semibold mb-6">Organizations</h2>
+
+      {/* Horizontal Scroll Container */}
+      <div className="relative w-full">
+        <div
+          className="flex gap-6 overflow-x-scroll pb-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
+        >
+          {organizations.map((organization, index) => (
+            <motion.div
+              key={index}
+              className="relative flex-shrink-0 w-[250px] h-[140px] bg-gray-800 rounded-lg overflow-hidden cursor-pointer"
+              onClick={() => handleOrganizationClick(organization)}
+            >
+              {/* Image with Overlay */}
+              <div className="relative h-full w-full">
+                <Image
+                  src={organization.imgSrc}
+                  alt={organization.name}
+                  fill
+                  className="object-cover transition-transform duration-300 ease-in-out"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                  <h3 className="text-lg font-bold text-white truncate">{organization.name}</h3>
+                  <p className="text-sm text-gray-300 line-clamp-2">{organization.description}</p>
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold mb-2 truncate">
-                    {org.name}
-                  </h3>
-                  <p className="text-sm text-gray-400 line-clamp-2">
-                    {org.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
+
+      {/* Popup Modal for Organization Details */}
+      <AnimatePresence>
+        {selectedOrganization && (
+          <motion.div
+            key="details"
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="rounded-lg p-6 max-w-lg w-full relative" style={{ backgroundColor: '#181818' }}>
+              <button
+                className="absolute top-4 right-4 text-white text-xl"
+                onClick={() => setSelectedOrganization(null)}
+              >
+                &times;
+              </button>
+              <div className="mb-4">
+                <h3 className="text-2xl font-bold">{selectedOrganization.name}</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  {selectedOrganization.description}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
